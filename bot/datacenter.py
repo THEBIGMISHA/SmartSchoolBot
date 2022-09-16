@@ -3,14 +3,15 @@ import telebot 	#Подключаем API
 import config 	#Подключаем конфигуратор
 #####SETUP-
 bot = telebot.TeleBot(config.token) # Token
-#####SCHEDULE-
+#####DATA-
+
 def schedule(team,day,id):
 	error0 ='ERROR_0: День недели не найден!'
 	error1 ='ERROR_0: Класс не найден!'
-	if team =='8Б':
-		if   day ==1:
-			bot.send_message(id,'''
-			<b>П-О-Н-Е-Д-Е-Л-Ь-Н-И-К
+	if 	 team=='8Б':
+		if   day ==1 or day=='1':
+			bot.send_message(id,f'''
+			<b>ПОНЕДЕЛЬНИК-{team}
 			1 |00:00  -  00:00| О важном
 			2 |00:00  -  00:00| География
 			3 |00:00  -  00:00| Русский язык
@@ -21,9 +22,9 @@ def schedule(team,day,id):
 			8 |00:00  -  00:00| -
 			есть ошибка? напиши /bug_report
 			</b>''',parse_mode='html')
-		elif day ==2:
-			bot.send_message(id,'''
-			<b>В-Т-О-Р-Н-И-К
+		elif day ==2 or day=='2':
+			bot.send_message(id,f'''
+			<b>ВТОРНИК-{team}
 			1 |00:00  -  00:00| Литература
 			2 |00:00  -  00:00| Биология
 			3 |00:00  -  00:00|	Химия
@@ -34,9 +35,9 @@ def schedule(team,day,id):
 			8 |00:00  -  00:00| -
 			есть ошибка? напиши /bug_report
 			</b>''',parse_mode='html')
-		elif day ==3:
-			bot.send_message(id,'''
-			<b>С-Р-Е-Д-А
+		elif day ==3 or day=='3':
+			bot.send_message(id,f'''
+			<b>СРЕДА-{team}
 			1 |00:00  -  00:00| Алгебра
 			2 |00:00  -  00:00| Информатика
 			3 |00:00  -  00:00|	Геометрия
@@ -47,9 +48,9 @@ def schedule(team,day,id):
 			8 |00:00  -  00:00| -
 			есть ошибка? напиши /bug_report
 			</b>''',parse_mode='html')
-		elif day ==4:
-			bot.send_message(id,'''
-			<b>Ч-Е-Т-В-Е-Р-Г
+		elif day ==4 or day=='4':
+			bot.send_message(id,f'''
+			<b>ЧЕТВЕРГ-{team}
 			1 |00:00  -  00:00| Музыка
 			2 |00:00  -  00:00| Биология
 			3 |00:00  -  00:00|	Литература
@@ -60,9 +61,9 @@ def schedule(team,day,id):
 			8 |00:00  -  00:00| -
 			есть ошибка? напиши /bug_report
 			</b>''',parse_mode='html')
-		elif day ==5:
-			bot.send_message(id,'''
-			<b>П-Я-Т-Н-И-Ц-А
+		elif day ==5 or day=='5':
+			bot.send_message(id,f'''
+			<b>ПЯТНИЦА-{team}
 			1 |00:00  -  00:00| История
 			2 |00:00  -  00:00| Химия
 			3 |00:00  -  00:00|	Русский язык
@@ -76,5 +77,75 @@ def schedule(team,day,id):
 		else:
 			bot.send_message(id,error0)
 			print(error0) 
+	elif team=='8А':
+		if   day ==1 or day=='1':
+			bot.send_message(id,f'''
+			<b>ПОНЕДЕЛЬНИК-{team}
+			1 |00:00  -  00:00| О важном
+			2 |00:00  -  00:00| Алгебра
+			3 |00:00  -  00:00| География
+			4 |00:00  -  00:00| История
+			5 |00:00  -  00:00| Русский язык
+			6 |00:00  -  00:00| Геометрия
+			7 |00:00  -  00:00| Английский язык
+			8 |00:00  -  00:00| -
+			есть ошибка? напиши /bug_report
+			</b>''',parse_mode='html')
+		elif day ==2 or day=='2':
+			bot.send_message(id,f'''
+			<b>ВТОРНИК-{team}
+			1 |00:00  -  00:00| Биология
+			2 |00:00  -  00:00| Алгебра
+			3 |00:00  -  00:00|	Физика
+			4 |00:00  -  00:00| Английский язык
+			5 |00:00  -  00:00| Химия
+			6 |00:00  -  00:00| Гография
+			7 |00:00  -  00:00| Физкультура
+			8 |00:00  -  00:00| -
+			есть ошибка? напиши /bug_report
+			</b>''',parse_mode='html')
+		elif day ==3 or day=='3':
+			bot.send_message(id,f'''
+			<b>СРЕДА-{team}
+			1 |00:00  -  00:00| География
+			2 |00:00  -  00:00| Английский язык
+			3 |00:00  -  00:00|	Информатика
+			4 |00:00  -  00:00| Алгебра
+			5 |00:00  -  00:00| Физкультура
+			6 |00:00  -  00:00| Литература
+			7 |00:00  -  00:00| -
+			8 |00:00  -  00:00| -
+			есть ошибка? напиши /bug_report
+			</b>''',parse_mode='html')
+		elif day ==4 or day=='4':
+			bot.send_message(id,f'''
+			<b>ЧЕТВЕРГ-{team}
+			1 |00:00  -  00:00| Обществознание
+			2 |00:00  -  00:00| Музыка
+			3 |00:00  -  00:00|	Биология
+			4 |00:00  -  00:00| Технология
+			5 |00:00  -  00:00| Физика
+			6 |00:00  -  00:00| Русский язык
+			7 |00:00  -  00:00| Геометрия
+			8 |00:00  -  00:00| -
+			есть ошибка? напиши /bug_report
+			</b>''',parse_mode='html')
+		elif day ==5 or day=='5':
+			bot.send_message(id,f'''
+			<b>ПЯТНИЦА-{team}
+			1 |00:00  -  00:00| Химия
+			2 |00:00  -  00:00| Русский язык
+			3 |00:00  -  00:00|	Физкультура
+			4 |00:00  -  00:00| ИЗО
+			5 |00:00  -  00:00| ОБЖ
+			6 |00:00  -  00:00| Литература
+			7 |00:00  -  00:00| История
+			8 |00:00  -  00:00| -
+			есть ошибка? напиши /bug_report
+			</b>''',parse_mode='html')
+		else:
+			bot.send_message(id,error0)
+			print(error0) 
 	else:
+		bot.send_message(id,error1)
 		print(error1)

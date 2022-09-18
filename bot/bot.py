@@ -15,7 +15,7 @@ def START(message):
 	sticker=open(f"{config.media}Swelcome.webp", "rb")
 	bot.send_sticker(message.chat.id, sticker)
 	logger.log('W','BOT',f'start,restart: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
-	bot.send_message(message.chat.id,f'<b>Привет, {str(message.from_user.first_name)}!\n Я бот помощьник класса 8Б\n Все мои функии в кнопке "меню"</b>', parse_mode='html')
+	bot.send_message(message.chat.id,f'<b>Привет, {str(message.from_user.first_name)}!\n Я бот помощьник 8Б класса\n Все мои функии в кнопке "меню"</b>', parse_mode='html')
 	if message.chat.type == 'private':
 		bot.send_message(message.chat.id,'<b>↓↓↓↓↓</b>',parse_mode='html')
 @bot.message_handler(commands=['settings'])

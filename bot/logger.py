@@ -1,18 +1,19 @@
-#####ИМПОРТ-
+#####IMPORT
 import os
 import datetime
 import config
-def work(func,command,message,id):
+#####CODE
+def log(func,command,message):
 	logfile=open(config.logfile, 'a', encoding='utf-8')
 	date = datetime.datetime.today().strftime("[%d.%m.%Y|%H:%M:%S]")
 	#Write
-	if 	 func=='W':	#Write
-		logfile.write(f'{date}  {command}:  {message}  {id}\n')
+	if 	 func=='W':		#Write
+		logfile.write(f'{date}  {command}:  [{message}]\n')
 		pass
 	elif func=='WS':	#Write&SendConsole
-		logfile.write(f'{date}  {command}:  {message}  {id}\n')
-		print(f'{date}  {command}:  {message}\n')
+		logfile.write(f'{date}  {command}:  [{message}]\n')
+		print(f'{date}  {command}:  [{message}]')
 	else:				#Error
-		logfile.write(f'{date}  Logger:  404\n')
-		print(f'{date}  Logger:  404\n')
+		logfile.write(f'{date}  Logger: "W" or "WS" \n')
+		print(f'{date}  Logger: "W" or "WS"')
 	logfile.close()

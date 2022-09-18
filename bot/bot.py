@@ -87,7 +87,7 @@ def CALL(call):
 			markup.add(buttonA)
 			markup.add(buttonB)
 			logger.log('WS','BOT',f'logger: NAME: {str(call.message.from_user.first_name)} USER-ID: {str(call.message.from_user.id)} CHAT-ID: {str(call.message.chat.id)}')
-			bot.send_message(call.message.chat.id,'Логирование', parse_mode='html', reply_markup=markup)
+			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text='Логирование', parse_mode='html', reply_markup=markup)
 		elif call.data == 'stop/hm':
 			markup = types.InlineKeyboardMarkup()
 			buttonA = types.InlineKeyboardButton(text='Да, точно!', callback_data='stop/yes')
@@ -103,7 +103,7 @@ def CALL(call):
 			markup.add(buttonE)
 			markup.add(buttonF)
 			logger.log('WS','BOT',f'Stop/hm: NAME: {str(call.message.from_user.first_name)} USER-ID: {str(call.message.from_user.id)} CHAT-ID: {str(call.message.chat.id)}')
-			bot.send_message(call.message.chat.id,'ВЫ ТОЧНО ХОТИТЕ ОСТАНОВИТЬ БОТА?', parse_mode='html', reply_markup=markup)
+			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text='ВЫ ТОЧНО ХОТИТЕ ОСТАНОВИТЬ БОТА?', parse_mode='html', reply_markup=markup)
 		elif call.data == 'logger/hm':
 			markup = types.InlineKeyboardMarkup()
 			buttonA = types.InlineKeyboardButton(text='Да, точно!', callback_data='logger/delete')
@@ -119,7 +119,7 @@ def CALL(call):
 			markup.add(buttonE)
 			markup.add(buttonF)
 			logger.log('WS','BOT',f'logger/hm: NAME: {str(call.message.from_user.first_name)} USER-ID: {str(call.message.from_user.id)} CHAT-ID: {str(call.message.chat.id)}')
-			bot.send_message(call.message.chat.id,'ВЫ ТОЧНО ХОТИТЕ УДАЛИТЬ ЛОГИ?', parse_mode='html', reply_markup=markup)
+			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text='ВЫ ТОЧНО ХОТИТЕ УДАЛИТЬ ЛОГИ?', parse_mode='html', reply_markup=markup)
 		elif call.data == 'bot_del_mess':
 			bot.delete_message(call.message.chat.id, call.message.message_id)
 			pass
@@ -138,13 +138,12 @@ def CALL(call):
 def ADMIN_PANEL(message):
 	if message.chat.type == 'private':
 		if message.chat.id in config.adminid:
-			sticker=open(f"{config.media}Stool.webp", "rb")
 			markup = types.InlineKeyboardMarkup()
 			buttonA = types.InlineKeyboardButton(text='Логирование', callback_data='logger')
 			buttonB = types.InlineKeyboardButton(text='Остановить бота', callback_data='stop/hm')
 			markup.add(buttonA)
 			markup.add(buttonB)
-			bot.send_sticker(message.chat.id, sticker, reply_markup=markup)
+			bot.send_message(message.chat.id,'<b>Админка</b>', parse_mode='html',reply_markup=markup)
 			logger.log('WS','BOT',f'admin_panel: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
 		else:
 			bot.send_message(message.chat.id,f'<b>{str(message.from_user.first_name)}, вы НЕ админ\nваш id: {str(message.from_user.id)}</b>', parse_mode='html')

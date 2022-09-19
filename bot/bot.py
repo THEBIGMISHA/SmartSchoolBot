@@ -22,6 +22,11 @@ def START(message):
 def SETTINGS(message):
 	logger.log('W','BOT',f'settings: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
 	bot.send_message(message.chat.id,'<b>СКОРО</b>',parse_mode='html')
+@bot.message_handler(commands=['qr'])
+def QR(message):
+	logger.log('W','BOT',f'qr: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
+	photo=open(f"{config.media}Pqr.jpg", "rb")
+	bot.send_photo(message.chat.id,photo)
 @bot.message_handler(commands=['ping' , 'test'])
 def PING(message):
 	bot.send_message(message.chat.id, '<b>БОТ РАБОТАЕТ!</b>', parse_mode='html')
@@ -45,6 +50,7 @@ def CALL(call):
 	if call.message:
 		#SCHEDULE
 		if   call.data == 'schedule/1':
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ГОТОВО")
 			markup = types.InlineKeyboardMarkup()
 			buttonA = types.InlineKeyboardButton(text='Прошлый день', callback_data='schedule/5')
 			buttonB = types.InlineKeyboardButton(text='Следующий день', callback_data='schedule/2')
@@ -52,6 +58,7 @@ def CALL(call):
 			logger.log('W','BOT',f'schedule/1: NAME: {str(call.message.from_user.first_name)} USER-ID: {str(call.message.from_user.id)} CHAT-ID: {str(call.message.chat.id)}')
 			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text=datacenter.schedule(1), parse_mode='html', reply_markup=markup)
 		elif call.data == 'schedule/2':
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ГОТОВО")			
 			markup = types.InlineKeyboardMarkup()
 			buttonA = types.InlineKeyboardButton(text='Прошлый день', callback_data='schedule/1')
 			buttonB = types.InlineKeyboardButton(text='Следующий день', callback_data='schedule/3')
@@ -59,6 +66,7 @@ def CALL(call):
 			logger.log('W','BOT',f'schedule/2: NAME: {str(call.message.from_user.first_name)} USER-ID: {str(call.message.from_user.id)} CHAT-ID: {str(call.message.chat.id)}')
 			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text=datacenter.schedule(2), parse_mode='html', reply_markup=markup)
 		elif call.data == 'schedule/3':
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ГОТОВО")
 			markup = types.InlineKeyboardMarkup()
 			buttonA = types.InlineKeyboardButton(text='Прошлый день', callback_data='schedule/2')
 			buttonB = types.InlineKeyboardButton(text='Следующий день', callback_data='schedule/4')
@@ -66,6 +74,7 @@ def CALL(call):
 			logger.log('W','BOT',f'schedule/3: NAME: {str(call.message.from_user.first_name)} USER-ID: {str(call.message.from_user.id)} CHAT-ID: {str(call.message.chat.id)}')
 			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text=datacenter.schedule(3), parse_mode='html', reply_markup=markup)
 		elif call.data == 'schedule/4':
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ГОТОВО")
 			markup = types.InlineKeyboardMarkup()
 			buttonA = types.InlineKeyboardButton(text='Прошлый день', callback_data='schedule/3')
 			buttonB = types.InlineKeyboardButton(text='Следующий день', callback_data='schedule/5')
@@ -73,6 +82,7 @@ def CALL(call):
 			logger.log('W','BOT',f'schedule/4: NAME: {str(call.message.from_user.first_name)} USER-ID: {str(call.message.from_user.id)} CHAT-ID: {str(call.message.chat.id)}')
 			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text=datacenter.schedule(4), parse_mode='html', reply_markup=markup)
 		elif call.data == 'schedule/5':
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ГОТОВО")
 			markup = types.InlineKeyboardMarkup()
 			buttonA = types.InlineKeyboardButton(text='Прошлый день', callback_data='schedule/4')
 			buttonB = types.InlineKeyboardButton(text='Следующий день', callback_data='schedule/1')
@@ -121,19 +131,25 @@ def CALL(call):
 			logger.log('WS','BOT',f'logger/hm: NAME: {str(call.message.from_user.first_name)} USER-ID: {str(call.message.from_user.id)} CHAT-ID: {str(call.message.chat.id)}')
 			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text='ВЫ ТОЧНО ХОТИТЕ УДАЛИТЬ ЛОГИ?', parse_mode='html', reply_markup=markup)
 		elif call.data == 'bot_del_mess':
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ОТМЕНЕНО")
 			bot.delete_message(call.message.chat.id, call.message.message_id)
 			pass
 		elif call.data == 'logger/delete':
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ЛОГИ УДАЛЕНЫ")
 			open(config.logfile, 'w').close()
 			logger.log('WS','BOT',f'logger/delete: CHAT-ID: {str(call.message.chat.id)}')
 			bot.delete_message(call.message.chat.id, call.message.message_id)
 		elif call.data == 'stop/yes':
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="БОТ ОСТАНОВЛЕН")
 			bot.delete_message(call.message.chat.id, call.message.message_id)
 			AMOGUSISSUS()
 		elif call.data == 'logger/save':
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ЛОГ ФАЙЛ ГОТОВ")
 			bot.delete_message(call.message.chat.id, call.message.message_id)
 			bot.send_document(call.message.chat.id, open(config.logfile, 'rb'))
 			logger.log('WS','BOT',f'logger/save: CHAT-ID: {str(call.message.chat.id)}')
+	else:
+		bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ERROR")
 @bot.message_handler(commands=['admin_panel'])
 def ADMIN_PANEL(message):
 	if message.chat.type == 'private':

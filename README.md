@@ -1,1 +1,2 @@
 # SmartSchoolBot
+### School helper bot

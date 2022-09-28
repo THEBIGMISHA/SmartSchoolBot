@@ -75,4 +75,4 @@ def schedule(day):
 		</b>''')
 	else:
 		logger.log('WS','datacenter/scheldule','404: '+str(day)+' NOT FOUND!')
-		bot.send_message(id,f'/datacenter/schedule/'+str(day)+' NOT FOUND!')
+		return(f'/datacenter/schedule/'+str(day)+' NOT FOUND!')

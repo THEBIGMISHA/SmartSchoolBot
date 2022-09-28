@@ -175,7 +175,7 @@ def CALL(call):
 				logger.log('W','BOT',f'stop/bot: CHAT-ID: {str(call.message.chat.id)}')
 				bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="БОТ ОСТАНОВЛЕН")
 				bot.delete_message(call.message.chat.id, call.message.message_id)
-				AMOGUSISSUS()
+				bot.polling(non_stop=False)
 			elif call.data == 'logger/save':
 				bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ЛОГ ФАЙЛ ГОТОВ")
 				bot.delete_message(call.message.chat.id, call.message.message_id)

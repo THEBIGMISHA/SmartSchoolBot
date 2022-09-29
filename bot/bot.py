@@ -7,6 +7,10 @@ import os
 import time				
 from telebot import types
 #####SETUP
+os.system('cls|clear')
+os.system('neofetch')
+print('Starting...')
+time.sleep(5)
 logger.log('WS','BOT','WORKING')
 bot = telebot.TeleBot(config.token)
 #####CODE

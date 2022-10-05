@@ -33,7 +33,6 @@ def QR(message):
 	logger.log('W','BOT',f'qr: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
 	photo=open(f"{config.media}Pqr.jpg", "rb")
 	bot.send_photo(message.chat.id,photo)
-	time.sleep(20)
 	bot.delete_message(message.chat.id, message.message_id)
 @bot.message_handler(commands=['ping'])
 def PING(message):
@@ -206,6 +205,5 @@ def WIFI(message):
 	photo=open(f"{config.media}Pwifi.png", "rb")
 	bot.send_photo(message.chat.id,photo)
 	bot.send_message(message.chat.id,f'<b>SSID: <i>{config.schoolWlanSSID}</i>\nPASS: {config.schoolWlanPASS}</b>',parse_mode='html')
-	time.sleep(20)
 	bot.delete_message(message.chat.id, message.message_id)
 bot.polling(none_stop=True)	

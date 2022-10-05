@@ -200,4 +200,12 @@ def ADMIN_PANEL(message):
 	else:
 		bot.send_message(message.chat.id,f'<b>{str(message.from_user.first_name)}, вы НЕ админ\nваш id: {str(message.from_user.id)}</b>', parse_mode='html')
 	bot.delete_message(message.chat.id, message.message_id)	
+@bot.message_handler(commands=['wifi'])
+def WIFI(message):
+	logger.log('W','BOT',f'wifi: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
+	photo=open(f"{config.media}Pwifi.png", "rb")
+	bot.send_photo(message.chat.id,photo)
+	bot.send_message(message.chat.id,f'<b>SSID: <i>{config.schoolWlanSSID}</i>\nPASS: {config.schoolWlanPASS}</b>',parse_mode='html')
+	time.sleep(20)
+	bot.delete_message(message.chat.id, message.message_id)
 bot.polling(none_stop=True)	

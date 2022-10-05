@@ -133,7 +133,6 @@ def CALL(call):
 				markup.add(buttonB)
 				logger.log('W','BOT',f'logger: CHAT-ID: {str(call.message.chat.id)}')
 				bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text='Логирование', parse_mode='html', reply_markup=markup)
-			elif call.data == 'stop/hm':
 				markup = types.InlineKeyboardMarkup()
 				buttonA = types.InlineKeyboardButton(text='Да, точно!', callback_data='stop/yes')
 				buttonB = types.InlineKeyboardButton(text='Нет', callback_data='bot_del_mess')
@@ -174,8 +173,8 @@ def CALL(call):
 				open(config.logfile, 'w').close()
 				logger.log('W','BOT',f'logger/delete: CHAT-ID: {str(call.message.chat.id)}')
 				bot.delete_message(call.message.chat.id, call.message.message_id)
-			elif call.data == 'stop/yes':
-				logger.log('W','BOT',f'stop/bot: CHAT-ID: {str(call.message.chat.id)}')
+			elif call.data == 'stop':
+				logger.log('W','BOT',f'stop: CHAT-ID: {str(call.message.chat.id)}')
 				bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="БОТ ОСТАНОВЛЕН")
 				bot.delete_message(call.message.chat.id, call.message.message_id)
 				bot.polling(non_stop=False)
@@ -184,6 +183,26 @@ def CALL(call):
 				bot.delete_message(call.message.chat.id, call.message.message_id)
 				bot.send_document(call.message.chat.id, open(config.logfile, 'rb'))
 				logger.log('W','BOT',f'logger/save: CHAT-ID: {str(call.message.chat.id)}')
+			elif call.data == 'power':
+				markup = types.InlineKeyboardMarkup()
+				buttonA = types.InlineKeyboardButton(text='Остановить бота', callback_data='stop')
+				buttonB = types.InlineKeyboardButton(text='Перезапустить сервер', callback_data='reboot')
+				buttonC = types.InlineKeyboardButton(text='Выключить сервер', callback_data='poweroff')				
+				markup.add(buttonA)
+				markup.add(buttonB)
+				markup.add(buttonC)
+				bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text='Логирование', parse_mode='html', reply_markup=markup)
+				logger.log('W','BOT',f'power: CHAT-ID: {str(call.message.chat.id)}')
+			elif call.data == 'reboot':
+				bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ПЕРЕЗАГРУЗКА СЕРВЕРА")
+				bot.delete_message(call.message.chat.id, call.message.message_id)
+				logger.log('W','BOT',f'power/reboot: CHAT-ID: {str(call.message.chat.id)}')
+				os.system('reboot')
+			elif call.data == 'poweroff':
+				bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ВЫКЛЮЧЕНИЕ СЕРВЕРА")
+				bot.delete_message(call.message.chat.id, call.message.message_id)
+				logger.log('W','BOT',f'power/poweroff: CHAT-ID: {str(call.message.chat.id)}')
+				os.system('poweroff')
 		else:
 			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="ERROR")
 @bot.message_handler(commands=['admin_panel'])
@@ -191,9 +210,9 @@ def ADMIN_PANEL(message):
 	if message.from_user.id in config.adminid:
 		markup = types.InlineKeyboardMarkup()
 		buttonA = types.InlineKeyboardButton(text='Логирование', callback_data='logger')
-		buttonB = types.InlineKeyboardButton(text='Остановить бота', callback_data='stop/hm')
+		buttonC = types.InlineKeyboardButton(text='Питание', callback_data='power')
 		markup.add(buttonA)
-		markup.add(buttonB)
+		markup.add(buttonC)
 		bot.send_message(message.chat.id,'<b>Админка</b>', parse_mode='html',reply_markup=markup)
 		logger.log('WS','BOT',f'admin_panel: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
 	else:

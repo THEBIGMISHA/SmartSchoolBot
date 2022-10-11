@@ -41,10 +41,8 @@ def PING(message):
 	bot.delete_message(message.chat.id, message.message_id)
 @bot.message_handler(commands=['admin'])
 def ADMIN(message):
-	photo=open(f"{config.media}Padmin.jpg", "rb")
-	bot.send_photo(message.chat.id,photo)
 	markup = types.InlineKeyboardMarkup()
-	buttonA = types.InlineKeyboardButton(text='Написать', url='https://t.me/thebigmisha/')
+	buttonA = types.InlineKeyboardButton(text='Telegram', url='https://t.me/thebigmisha/')
 	buttonB = types.InlineKeyboardButton(text='GitHub', url='https://GitHub.com/thebigmisha/')
 	buttonC = types.InlineKeyboardButton(text='Spotify', url='https://open.spotify.com/user/31c4gv7qnyh5whjq2us5bsqcrpeq?si=EEi5AdIcTZy4DICXE4sNpw&utm_source=copy-link')
 	buttonD = types.InlineKeyboardButton(text='Steam', url='https://steamcommunity.com/id/THEBIGMISHA/')
@@ -123,6 +121,11 @@ def CALL(call):
 			markup.add(buttonA,buttonB)
 			logger.log('W','BOT',f'schedule/5: CHAT-ID: {str(call.message.chat.id)}')
 			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text=datacenter.schedule(5), parse_mode='html', reply_markup=markup)
+		#WI-FI
+		elif call.data == 'wifi/ok':
+			logger.log('W','BOT',f'wifi/ok: CHAT-ID: {str(call.message.chat.id)}')			
+			bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=True,text=f"SSID: {config.schoolWlanSSID}\nPASS:{config.schoolWlanPASS}")
 		#ADMIN_PANEL
 		elif call.from_user.id in config.adminid:
 			if call.data == 'logger':
@@ -182,19 +185,19 @@ def ADMIN_PANEL(message):
 	if message.from_user.id in config.adminid:
 		markup = types.InlineKeyboardMarkup()
 		buttonA = types.InlineKeyboardButton(text='Logger', callback_data='logger')
-		buttonC = types.InlineKeyboardButton(text='Power', callback_data='power')
+		buttonB = types.InlineKeyboardButton(text='Power', callback_data='power')
 		markup.add(buttonA)
-		markup.add(buttonC)
+		markup.add(buttonB)
 		bot.send_message(message.chat.id,'<b>Admin_panel:</b>', parse_mode='html',reply_markup=markup)
 		logger.log('WS','BOT',f'admin_panel: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
 	else:
-		bot.send_message(message.chat.id,f'<b>{str(message.from_user.first_name)}, вы НЕ админ\nваш id: {str(message.from_user.id)}</b>', parse_mode='html')
+		bot.send_message(message.chat.id,f'<b>{str(message.from_user.first_name)}, вы НЕ админ\nid: </b>{str(message.from_user.id)}', parse_mode='html')
 	bot.delete_message(message.chat.id, message.message_id)	
 @bot.message_handler(commands=['wifi'])
 def WIFI(message):
-	logger.log('W','BOT',f'wifi: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
-	photo=open(f"{config.media}Pwifi.png", "rb")
-	bot.send_photo(message.chat.id,photo)
-	bot.send_message(message.chat.id,f'<b>SSID: <i>{config.schoolWlanSSID}</i>\nPASS: {config.schoolWlanPASS}</b>',parse_mode='html')
-	bot.delete_message(message.chat.id, message.message_id)
+	markup = types.InlineKeyboardMarkup()
+	buttonA = types.InlineKeyboardButton(text='Принять', callback_data='wifi/ok')
+	markup.add(buttonA)
+	bot.send_message(message.chat.id,config.schoolWlanTEXT, parse_mode='html',reply_markup=markup)
+	bot.delete_message(message.chat.id, message.message_id)	
 bot.polling(none_stop=True)	

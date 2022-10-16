@@ -22,7 +22,6 @@ def START(message):
 	bot.send_message(message.chat.id,f'<b>Привет, {str(message.from_user.first_name)}!\n Я бот помощьник 8Б класса\n Все мои функии в кнопке "меню"</b>', parse_mode='html')
 	if message.chat.type == 'private':
 		bot.send_message(message.chat.id,'<b>↓↓↓↓↓</b>',parse_mode='html')
-	bot.delete_message(message.chat.id, message.message_id)
 @bot.message_handler(commands=['settings'])
 def SETTINGS(message):
 	logger.log('W','BOT',f'settings: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
@@ -122,10 +121,16 @@ def CALL(call):
 			logger.log('W','BOT',f'schedule/5: CHAT-ID: {str(call.message.chat.id)}')
 			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text=datacenter.schedule(5), parse_mode='html', reply_markup=markup)
 		#WI-FI
+		elif call.data == 'wifi/text':	
+			markup = types.InlineKeyboardMarkup()
+			buttonA = types.InlineKeyboardButton(text='Принять и продолжить', callback_data='wifi/ok')
+			markup.add(buttonA)
+			bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text=config.schoolWlanTEXT, parse_mode='html', reply_markup=markup)
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text='Готово')
 		elif call.data == 'wifi/ok':
 			logger.log('W','BOT',f'wifi/ok: CHAT-ID: {str(call.message.chat.id)}')			
 			bot.delete_message(chat_id=call.message.chat.id, message_id=call.message.message_id)
-			bot.answer_callback_query(callback_query_id=call.id, show_alert=True,text=f"SSID: {config.schoolWlanSSID}\nPASS:{config.schoolWlanPASS}")
+			bot.answer_callback_query(callback_query_id=call.id, show_alert=True,text=f"WI-FI_1:\n    SSID: {config.schoolWlanSSID}\n    PASS: {config.schoolWlanPASS}")
 		#ADMIN_PANEL
 		elif call.from_user.id in config.adminid:
 			if call.data == 'logger':
@@ -196,8 +201,10 @@ def ADMIN_PANEL(message):
 @bot.message_handler(commands=['wifi'])
 def WIFI(message):
 	markup = types.InlineKeyboardMarkup()
-	buttonA = types.InlineKeyboardButton(text='Принять', callback_data='wifi/ok')
+	buttonA = types.InlineKeyboardButton(text='Прочитать', callback_data='wifi/text')
+	buttonB = types.InlineKeyboardButton(text='Принять и продолжить', callback_data='wifi/ok')
 	markup.add(buttonA)
-	bot.send_message(message.chat.id,config.schoolWlanTEXT, parse_mode='html',reply_markup=markup)
+	markup.add(buttonB)
+	bot.send_message(message.chat.id,'Но перед тем как получить пароль вы должны знать что:\n\nПри нажатии кнопки "Принять и продолжить" вы соглашаетесь на пользовательское соглашением', parse_mode='html',reply_markup=markup)
 	bot.delete_message(message.chat.id, message.message_id)	
 bot.polling(none_stop=True)	

@@ -4,7 +4,7 @@ import datetime
 import config
 #####CODE
 def log(func,command,message):
-	logfile=open(config.logfile, 'a', encoding='utf-8')
+	logfile=open(config.log, 'a', encoding='utf-8')
 	date = datetime.datetime.today().strftime("[%d.%m.%Y|%H:%M:%S]")
 	#Write
 	if 	 func=='W':		#Write

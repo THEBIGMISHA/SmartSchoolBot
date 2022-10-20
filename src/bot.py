@@ -16,7 +16,7 @@ bot = telebot.TeleBot(config.token)
 #####CODE
 @bot.message_handler(commands=['start', 'restart'])
 def START(message):
-	sticker=open(f"{config.media}Swelcome.webp", "rb")
+	sticker=open(f"{config.media}/Swelcome.webp", "rb")
 	bot.send_sticker(message.chat.id, sticker)
 	logger.log('W','BOT',f'start,restart: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
 	bot.send_message(message.chat.id,f'<b>Привет, {str(message.from_user.first_name)}!\n Я бот помощьник 8Б класса\n Все мои функии в кнопке "меню"</b>', parse_mode='html')
@@ -30,7 +30,7 @@ def SETTINGS(message):
 @bot.message_handler(commands=['qr'])
 def QR(message):
 	logger.log('W','BOT',f'qr: NAME: {str(message.from_user.first_name)} USER-ID: {str(message.from_user.id)} CHAT-ID: {str(message.chat.id)}')
-	photo=open(f"{config.media}Pqr.jpg", "rb")
+	photo=open(f"{config.media}/Pqr.jpg", "rb")
 	bot.send_photo(message.chat.id,photo)
 	bot.delete_message(message.chat.id, message.message_id)
 @bot.message_handler(commands=['ping'])
@@ -143,13 +143,13 @@ def CALL(call):
 				bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text='Logger', parse_mode='html', reply_markup=markup)
 			elif call.data == 'logger/delete':
 				bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="Logs cleared")
-				open(config.logfile, 'w').close()
+				open(config.log, 'w').close()
 				logger.log('W','BOT',f'logger/delete: CHAT-ID: {str(call.message.chat.id)}')
 				bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text='Logs cleared')
 			elif call.data == 'logger/save':
 				bot.answer_callback_query(callback_query_id=call.id, show_alert=False,text="done")
 				bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,text='Logs')
-				bot.send_document(call.message.chat.id, open(config.logfile, 'rb'))
+				bot.send_document(call.message.chat.id, open(config.log, 'rb'))
 				logger.log('W','BOT',f'logger/save: CHAT-ID: {str(call.message.chat.id)}')
 			elif call.data == 'power':
 				markup = types.InlineKeyboardMarkup()

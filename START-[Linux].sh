@@ -1,1 +1,1 @@
-cool-retro-term -e '/bin/python3' '/home/michael/git/SmartSchoolBot/bot/bot.py' -T 'Smart School Bot'
+cool-retro-term -e 'python3' '/home/michael/GitHub/SmartSchoolBot/src/bot.py' -T 'Smart School Bot'
